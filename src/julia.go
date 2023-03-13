@@ -1,4 +1,9 @@
 // Stefan Nilsson 2013-02-27
+// modified by Vilhelm Prytz 2023-03-14
+
+// original runtime
+// $ time go run julia.go
+// go run julia.go  13,56s user 0,17s system 101% cpu 13,504 total
 
 // This program creates pictures of Julia sets (en.wikipedia.org/wiki/Julia_set).
 package main
@@ -11,6 +16,7 @@ import (
 	"math/cmplx"
 	"os"
 	"strconv"
+	"sync"
 )
 
 type ComplexFunc func(complex128) complex128
@@ -27,19 +33,23 @@ var Funcs []ComplexFunc = []ComplexFunc{
 }
 
 func main() {
+	// setup waitgroup
+	wg := new(sync.WaitGroup)
+	wg.Add(len(Funcs))
 	for n, fn := range Funcs {
-		err := CreatePng("picture-"+strconv.Itoa(n)+".png", fn, 1024)
-		if err != nil {
-			log.Fatal(err)
-		}
+		go CreatePng("picture-"+strconv.Itoa(n)+".png", fn, 1024, wg)
 	}
+
+	// wait for all goroutines to finish
+	wg.Wait()
 }
 
 // CreatePng creates a PNG picture file with a Julia image of size n x n.
-func CreatePng(filename string, f ComplexFunc, n int) (err error) {
+func CreatePng(filename string, f ComplexFunc, n int, wg *sync.WaitGroup) (err error) {
+	defer wg.Done()
 	file, err := os.Create(filename)
 	if err != nil {
-		return
+		log.Fatal(err)
 	}
 	defer file.Close()
 	err = png.Encode(file, Julia(f, n))
