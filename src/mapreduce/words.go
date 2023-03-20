@@ -17,7 +17,7 @@ func WordCount(text string) map[string]int {
 	results := make(chan map[string]int)
 	// wg := new(sync.WaitGroup)
 
-	numChunks := 5
+	numChunks := 10
 	chunks := make([]string, numChunks)
 	chunkLength := len(text) / numChunks
 	next := 0
