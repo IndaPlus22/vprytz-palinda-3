@@ -16,6 +16,10 @@ func WordCount(text string) map[string]int {
 	// iterate over the words in text
 	// for each word, increment the count in freqs
 	for _, word := range strings.Fields(text) {
+		// remove any punctuation from the word, trailing or leading
+		word = strings.Trim(word, ".,;:!?\"'")
+
+		// convert the word to lowercase, and increment the count in freqs
 		freqs[strings.ToLower(word)]++
 	}
 
