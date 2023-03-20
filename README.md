@@ -1,11 +1,14 @@
 ### Deadline:
+
 This work should be completed before the exercise on **Friday 24th March**.
 
 ### Instructions
+
 For instructions on how to do and submit the assignment, please see the
 [assignments section of the course instructions](https://gits-15.sys.kth.se/inda-21/course-instructions#assignments).
 
 ### Homework
+
 Study the following course literature:
 
 - Read the following from the [Fundamentals of Concurrent Programming](http://yourbasic.org/golang/concurrent-programming/)
@@ -16,10 +19,10 @@ Study the following course literature:
 
 Take a look at the program [matching.go](src/matching.go). Explain what happens and why it happens if you make the following changes. Try first to reason about it, and then test your hypothesis by changing and running the program.
 
-  * What happens if you remove the `go-command` from the `Seek` call in the `main` function?
-  * What happens if you switch the declaration `wg := new(sync.WaitGroup`) to `var wg sync.WaitGroup` and the parameter `wg *sync.WaitGroup` to `wg sync.WaitGroup`?
-  * What happens if you remove the buffer on the channel match?
-  * What happens if you remove the default-case from the case-statement in the `main` function?
+- What happens if you remove the `go-command` from the `Seek` call in the `main` function?
+- What happens if you switch the declaration `wg := new(sync.WaitGroup`) to `var wg sync.WaitGroup` and the parameter `wg *sync.WaitGroup` to `wg sync.WaitGroup`?
+- What happens if you remove the buffer on the channel match?
+- What happens if you remove the default-case from the case-statement in the `main` function?
 
 Hint: Think about the order of the instructions and what happens with arrays of different lengths.
 
@@ -34,14 +37,14 @@ of images that are produced.
 To start with read through the code to get an idea of how it works. Some things
 to note:
 
-* `var Funcs []ComplexFunc = []ComplexFunc{` on line 18 is an array of functions.
-Note how Go lets us iterate through this array and pass each function as an
-argument to the `CreatePng` function in the `Main` function (see:
-https://en.wikipedia.org/wiki/First-class_function).
+- `var Funcs []ComplexFunc = []ComplexFunc{` on line 18 is an array of functions.
+  Note how Go lets us iterate through this array and pass each function as an
+  argument to the `CreatePng` function in the `Main` function (see:
+  https://en.wikipedia.org/wiki/First-class_function).
 
-* In the `CreatePng` function it is the `Julia` function that creates the image and it does this by iterating through each pixel of the image to paint the final
-image. The actual calculation whether to paint a pixel occurs in the `Iterate`
-function in the _blink and you miss it_ line 73: `z = f(z)`, using the function from the `Funcs` array that has been passed through several functions.
+- In the `CreatePng` function it is the `Julia` function that creates the image and it does this by iterating through each pixel of the image to paint the final
+  image. The actual calculation whether to paint a pixel occurs in the `Iterate`
+  function in the _blink and you miss it_ line 73: `z = f(z)`, using the function from the `Funcs` array that has been passed through several functions.
 
 The program works, but is pretty slow. In order to get a sense of how long the
 program takes, you can time it using a stop watch, or more conveniently using
@@ -94,9 +97,8 @@ Once you are satisfied with the singleworker, move into [mapreduce/words.go](src
 - Find the optimal amount of gorountines before you encounter diminishing returns in performance improvements
 - Log the runtime performance in the table below
 
-
-|Variant       | Runtime (ms) |
-| ------------ | ------------:|
+| Variant      | Runtime (ms) |
+| ------------ | -----------: |
 | singleworker |          xxx |
 | mapreduce    |          yyy |
 
