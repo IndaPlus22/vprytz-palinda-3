@@ -54,8 +54,6 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Printf("%#v", WordCount(string(data)))
-
 	numRuns := 100
 	runtimeMillis := benchmark(string(data), numRuns)
 	printResults(runtimeMillis, numRuns)

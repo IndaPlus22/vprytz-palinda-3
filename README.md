@@ -100,6 +100,6 @@ Once you are satisfied with the singleworker, move into [mapreduce/words.go](src
 | Variant      | Runtime (ms) |
 | ------------ | -----------: |
 | singleworker |          713 |
-| mapreduce    |          yyy |
+| mapreduce    |          264 |
 
 And with that, you are on your way to Google-scale problems ;-)
