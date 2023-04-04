@@ -3,11 +3,11 @@
 
 // original runtime
 // $ time go run julia.go
-// go run julia.go  13,56s user 0,17s system 101% cpu 13,504 total
+// go run julia.go  11,41s user 0,19s system 99% cpu 11,688 total
 
 // modified runtime
 // $ time go run julia.go
-// go run julia.go  11,99s user 0,20s system 143% cpu 8,466 total
+// go run julia.go  14,89s user 0,23s system 587% cpu 2,576 total
 
 // This program creates pictures of Julia sets (en.wikipedia.org/wiki/Julia_set).
 package main
@@ -68,17 +68,17 @@ func Julia(f ComplexFunc, n int) image.Image {
 
 	var wg sync.WaitGroup
 	for outerI := bounds.Min.X; outerI < bounds.Max.X; outerI++ {
-		for outerJ := bounds.Min.Y; outerJ < bounds.Max.Y; outerJ++ {
-			wg.Add(1)
-			go func(i, j int) {
-				n := Iterate(f, complex(float64(i)/s, float64(j)/s), 256)
+		wg.Add(1)
+		go func(i int) {
+			for outerJ := bounds.Min.Y; outerJ < bounds.Max.Y; outerJ++ {
+				n := Iterate(f, complex(float64(i)/s, float64(outerJ)/s), 256)
 				r := uint8(0)
 				g := uint8(0)
 				b := uint8(n % 32 * 8)
-				img.Set(i, j, color.RGBA{r, g, b, 255})
-				wg.Done()
-			}(outerI, outerJ)
-		}
+				img.Set(i, outerJ, color.RGBA{r, g, b, 255})
+			}
+			wg.Done()
+		}(outerI)
 	}
 	wg.Wait()
 	return img
